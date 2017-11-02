@@ -26,7 +26,7 @@ class MapViewController: UIViewController, CLLocationManagerDelegate, MKMapViewD
         mapView.delegate = self
         mapView.showsUserLocation = true
         mapView.showsCompass = false
-       // mapView.userLocation.title = "Gotta catch 'em all!"
+        // mapView.userLocation.title = "Gotta catch 'em all!"
         
         locationPermissionsCheck()
     }
@@ -54,7 +54,7 @@ class MapViewController: UIViewController, CLLocationManagerDelegate, MKMapViewD
         switch CLLocationManager.authorizationStatus() {
         case .authorizedAlways, .authorizedWhenInUse:
             manager.startUpdatingLocation()
-            Timer.scheduledTimer(withTimeInterval: 5, repeats: true, block: { (timer) in
+            Timer.scheduledTimer(withTimeInterval: 10, repeats: true, block: { (timer) in
                 if let coordinates = self.manager.location?.coordinate {
                     //Spawn Pokemon
                     
@@ -62,7 +62,7 @@ class MapViewController: UIViewController, CLLocationManagerDelegate, MKMapViewD
                     let anno = PokeAnnotation(coord: coordinates, pokemon: pokemon)
                     let randomLat = (Double(arc4random_uniform(200))-100)/50000.0
                     let randomLong = (Double(arc4random_uniform(200))-100)/50000.0
-                  
+                    
                     anno.coordinate.latitude += randomLat
                     anno.coordinate.longitude += randomLong
                     self.mapView.addAnnotation(anno)
@@ -87,6 +87,10 @@ class MapViewController: UIViewController, CLLocationManagerDelegate, MKMapViewD
             self.present(alertController, animated: true, completion: nil)
         }
     }
+    func locationManager(_ manager: CLLocationManager, didChangeAuthorization status: CLAuthorizationStatus) {
+        locationPermissionsCheck()
+    }
+    
     func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView? {
         
         if annotation is MKUserLocation {
@@ -111,6 +115,48 @@ class MapViewController: UIViewController, CLLocationManagerDelegate, MKMapViewD
         annoView.frame = frame
         
         return annoView
+    }
+    
+    func mapView(_ mapView: MKMapView, didSelect view: MKAnnotationView) {
+        if view.annotation! is MKUserLocation {
+            return
+        }
+        mapView.deselectAnnotation(view.annotation!, animated: true)
+        
+        let region = MKCoordinateRegionMakeWithDistance(view.annotation!.coordinate, 150, 150)
+        mapView.setRegion(region, animated: true)
+        
+        Timer.scheduledTimer(withTimeInterval: 0.2, repeats: false) { (timer) in
+            if let userLocation = self.manager.location?.coordinate {
+                
+                let pokemon = (view.annotation as! PokeAnnotation).pokemon
+                
+                if MKMapRectContainsPoint(mapView.visibleMapRect, MKMapPointForCoordinate(userLocation)) {
+                    
+                    pokemon.caught = true
+                    (UIApplication.shared.delegate as! AppDelegate).saveContext()
+                    
+                    mapView.removeAnnotation(view.annotation!)
+                    
+                    let alertVC = UIAlertController(title: "Congrats!", message: "You caught \(pokemon.name!)!", preferredStyle: .alert)
+                    let OKAction = UIAlertAction(title: "OK", style: .default, handler: nil)
+                    alertVC.addAction(OKAction)
+                    let pokedexAction = UIAlertAction(title: "Pokedex", style: .default, handler: { (action) in
+                        self.performSegue(withIdentifier: "pokedexSegue", sender: nil)
+                    })
+                    alertVC.addAction(pokedexAction)
+                    self.present(alertVC, animated: true, completion: nil)
+                    
+                } else {
+                    let alertVC = UIAlertController(title: "Uh-oh! You're not close enough!", message: "Move closer to catch the \(pokemon.name!)", preferredStyle: .alert)
+                    let OKAction = UIAlertAction(title: "OK", style: .default, handler: nil)
+                    alertVC.addAction(OKAction)
+                    self.present(alertVC, animated: true, completion: nil)
+                }
+                
+            }
+        }
+        
     }
     
 }
