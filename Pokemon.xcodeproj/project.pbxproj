@@ -15,6 +15,7 @@
 		181350A31FAA905F008105D2 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 181350A11FAA905F008105D2 /* LaunchScreen.storyboard */; };
 		18DA893A1FAB98CC007642C4 /* PokedexViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18DA89391FAB98CC007642C4 /* PokedexViewController.swift */; };
 		18DA893C1FAB9F77007642C4 /* CoreDataHelp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18DA893B1FAB9F77007642C4 /* CoreDataHelp.swift */; };
+		18DA893E1FABB9C5007642C4 /* PokeAnnotation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18DA893D1FABB9C5007642C4 /* PokeAnnotation.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -29,6 +30,7 @@
 		181350AB1FAA9273008105D2 /* MapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MapKit.framework; path = System/Library/Frameworks/MapKit.framework; sourceTree = SDKROOT; };
 		18DA89391FAB98CC007642C4 /* PokedexViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PokedexViewController.swift; sourceTree = "<group>"; };
 		18DA893B1FAB9F77007642C4 /* CoreDataHelp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataHelp.swift; sourceTree = "<group>"; };
+		18DA893D1FABB9C5007642C4 /* PokeAnnotation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PokeAnnotation.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -64,6 +66,7 @@
 			children = (
 				181350951FAA905F008105D2 /* AppDelegate.swift */,
 				181350971FAA905F008105D2 /* MapViewController.swift */,
+				18DA893D1FABB9C5007642C4 /* PokeAnnotation.swift */,
 				18DA89391FAB98CC007642C4 /* PokedexViewController.swift */,
 				18DA893B1FAB9F77007642C4 /* CoreDataHelp.swift */,
 				181350991FAA905F008105D2 /* Main.storyboard */,
@@ -156,6 +159,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				181350981FAA905F008105D2 /* MapViewController.swift in Sources */,
+				18DA893E1FABB9C5007642C4 /* PokeAnnotation.swift in Sources */,
 				18DA893A1FAB98CC007642C4 /* PokedexViewController.swift in Sources */,
 				181350961FAA905F008105D2 /* AppDelegate.swift in Sources */,
 				18DA893C1FAB9F77007642C4 /* CoreDataHelp.swift in Sources */,

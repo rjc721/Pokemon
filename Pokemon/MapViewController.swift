@@ -23,8 +23,10 @@ class MapViewController: UIViewController, CLLocationManagerDelegate, MKMapViewD
         pokemons = getAllPokemon()
         
         manager.delegate = self
+        mapView.delegate = self
         mapView.showsUserLocation = true
         mapView.showsCompass = false
+       // mapView.userLocation.title = "Gotta catch 'em all!"
         
         locationPermissionsCheck()
     }
@@ -56,10 +58,11 @@ class MapViewController: UIViewController, CLLocationManagerDelegate, MKMapViewD
                 if let coordinates = self.manager.location?.coordinate {
                     //Spawn Pokemon
                     
-                    let anno = MKPointAnnotation()
+                    let pokemon = self.pokemons[Int(arc4random_uniform(UInt32(self.pokemons.count)))]
+                    let anno = PokeAnnotation(coord: coordinates, pokemon: pokemon)
                     let randomLat = (Double(arc4random_uniform(200))-100)/50000.0
                     let randomLong = (Double(arc4random_uniform(200))-100)/50000.0
-                    anno.coordinate = coordinates
+                  
                     anno.coordinate.latitude += randomLat
                     anno.coordinate.longitude += randomLong
                     self.mapView.addAnnotation(anno)
@@ -99,7 +102,8 @@ class MapViewController: UIViewController, CLLocationManagerDelegate, MKMapViewD
         }
         
         let annoView = MKAnnotationView(annotation: annotation, reuseIdentifier: nil)
-        annoView.image = UIImage(named: "mew")
+        let pokemon = (annotation as! PokeAnnotation).pokemon
+        annoView.image = UIImage(named: pokemon.imageName!)
         
         var frame = annoView.frame
         frame.size.height = 50
